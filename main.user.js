@@ -87,7 +87,7 @@
     padding: 3px;
     top: 100px;
     left: 5px;
-    box-shadow: 0 0 4px 0px rgb(0 0 0);
+    box-shadow: 0 0 4px 0px rgb(0 0 0), 0 0 4px 0px rgb(255 255 255);
     z-index: 10;
   }
   .avatarPreview :is(img, video) {
@@ -297,7 +297,7 @@
     }
   }
   if(vars.cfg.mode.match(/button|hover|timer/)){
-    document.onmouseover = (e) => {
+    document.body.onmouseover = (e) => {
       if(document.activeElement && document.activeElement.id === 'dtf-avatarSearchMenu') return;
       if(!e.target.className){
         if(!e.target.nodeName === 'VIDEO') return;
@@ -321,7 +321,7 @@
         }, vars.cfg.timers.hover['for image']);
       }
     };
-    document.onmouseout = (e) => {
+    document.body.onmouseout = (e) => {
       vars.hovered = false;
       if(vars.cfg.mode === 'timer'){
         if(vars.timer) clearTimeout(vars.timer);
@@ -334,7 +334,7 @@
       }
     };
 
-    document.onkeydown = (e) => {
+    document.body.onkeydown = (e) => {
       if(!vars.hovered) return;
       if(!e.code.match(vars.cfg.buttons.btnFilter)) return;
       else{
@@ -354,7 +354,7 @@
         if(vars.btnPressed[vars.cfg.buttons.showSrchMenu]) new Avatar().srchMenu(vars.hovered, vars.hovered.className.split(' ')[0]);
       }
     };
-    document.onkeyup = (e) => {
+    document.body.onkeyup = (e) => {
       if(e.code.match(vars.cfg.buttons.btnFilter)) vars.btnPressed[e.code.match(vars.cfg.buttons.btnFilter)[0]] = false;
 
       if(vars.cfg.mode !== 'button') return;
@@ -370,6 +370,12 @@
   };
 
   if(vars.cfg.mode === 'click'){
+    document.body.onmouseout = (e) => {
+      if(!document.activeElement.id) return;
+      if(vars.cfg['close after']['hoverOut']){
+        if(document.activeElement.id === 'dtf-avatarPreview') document.activeElement.blur();
+      }
+    };
     document.body.onclick = (e) => {
       if(!e.button === 0) return;
       if(!e.target.className){
@@ -388,7 +394,7 @@
         if(e[vars.cfg.buttons['click mode'].copyUrl]) new Avatar().write(e.target.classList.value, e.target);
       }
     }
-    document.oncontextmenu = (e) => {
+    document.body.oncontextmenu = (e) => {
       if(!e.button === 2) return;
       if(!e.target.className){
         if(e.target.nodeName !== 'VIDEO') return;
