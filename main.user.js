@@ -121,6 +121,11 @@
     width: 200px;
     aspect-ratio: 1/1;
   }
+  .avatarPreview.s-${vars.cfg.filters['user page subscribers']} {
+    margin: 10px 0 0 0;
+    width: 200px;
+    aspect-ratio: 1/1;
+  }
   .avatarPreview.s-${vars.cfg.filters['comment panel avatar']} {
     margin: 10px 0 0 0;
     width: 200px;
